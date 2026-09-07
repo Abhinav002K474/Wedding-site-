@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#06080e">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="description" content="Aurelius & Elena — A story written in the stars. An enchanted digital wedding celebration.">
+  <title>Aurelius & Elena — Written in the Stars</title>
+
+  <!-- Google Fonts: Editorial Serif and Classical Typefaces -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400;1,600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="is-loading">
+
+  <!-- Atmospheric Background Canvas (Stars, Nebula, Floating Embers) -->
+  <canvas id="sky-canvas"></canvas>
+
+  <!-- SVG Filter for Liquid Displacement Distortion -->
+  <svg class="svg-filters" aria-hidden="true" width="0" height="0">
+    <defs>
+      <filter id="liquid-filter">
+        <feTurbulence id="fe-turb" type="fractalNoise" baseFrequency="0.015 0.015" numOctaves="2" result="warp" />
+        <feDisplacementMap id="fe-disp" xChannelSelector="R" yChannelSelector="G" scale="0" in="SourceGraphic" in2="warp" />
+      </filter>
+      <filter id="ink-spread">
+        <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" result="noise" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="6" />
+      </filter>
+    </defs>
+  </svg>
+
+  <!-- Minimal Celestial Audio & Scene Indicator HUD -->
+  <header class="celestial-hud" role="banner">
+    <button id="sound-toggle" class="hud-btn" aria-label="Toggle atmospheric sound" title="Enchant Atmosphere (Sound)">
+      <svg class="sound-icon icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+        <line x1="23" y1="9" x2="17" y2="15"/>
+        <line x1="17" y1="9" x2="23" y2="15"/>
+      </svg>
+      <svg class="sound-icon icon-playing" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+        <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+      </svg>
+      <span class="hud-label">Atmosphere</span>
+    </button>
+
+    <div class="constellation-nav" aria-label="Story chapters" role="navigation">
+      <div class="nav-track">
+        <span class="nav-pulse"></span>
+        <button class="nav-node active" data-scene="0" aria-label="Scene 1: Arrival"></button>
+        <button class="nav-node" data-scene="1" aria-label="Scene 2: Invitation"></button>
+        <button class="nav-node" data-scene="2" aria-label="Scene 3: Two Stories"></button>
+        <button class="nav-node" data-scene="3" aria-label="Scene 4: Journey"></button>
+        <button class="nav-node" data-scene="4" aria-label="Scene 5: Memories"></button>
+        <button class="nav-node" data-scene="5" aria-label="Scene 6: The Wedding"></button>
+        <button class="nav-node" data-scene="6" aria-label="Scene 7: Astrolabe Clock"></button>
+        <button class="nav-node" data-scene="7" aria-label="Scene 8: Enchanted RSVP"></button>
+        <button class="nav-node" data-scene="8" aria-label="Scene 9: Save the Date"></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Narrative Continuous Flow Container -->
+  <main class="narrative-container" id="narrative-container">
+
+    <!-- ==========================================
+         SCENE 01: THE ARRIVAL
+    =========================================== -->
+    <section class="scene scene-01" id="scene-01" aria-label="The Arrival">
+      <div class="scene-inner scene-01-inner">
+        
+        <div class="arrival-prologue">
+          <p class="prologue-line line-1">Some stories are written...</p>
+          <p class="prologue-line line-2">...others are enchanted.</p>
+          <p class="prologue-line line-3">Tonight, a new chapter begins.</p>
+        </div>
+
+        <div class="candle-chamber" id="candle-chamber">
+          <div class="candle-halo" id="candle-halo"></div>
+          
+          <div class="candle-vessel" id="candle-vessel" role="button" tabindex="0" aria-label="Touch the candle flame to awaken the light">
+            <canvas id="flame-canvas" width="160" height="240"></canvas>
+            <div class="candle-stick">
+              <div class="candle-wick"></div>
+              <div class="candle-wax"></div>
+              <div class="candle-holder"></div>
+            </div>
+          </div>
+
+          <div class="tap-hint" id="candle-hint">
+            <span class="hint-glyph">✦</span>
+            <span class="hint-text">Touch the flame</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ==========================================
+         SCENE 02: THE INVITATION
+    =========================================== -->
+    <section class="scene scene-02" id="scene-02" aria-label="The Invitation">
+      <div class="scene-inner scene-02-inner">
+        
+        <div class="envelope-stage" id="envelope-stage">
+          <div class="envelope-shadow"></div>
+          
+          <!-- Physical 3D Envelope Object -->
+          <div class="envelope" id="physical-envelope">
+            
+            <!-- Back flap -->
+            <div class="envelope-back"></div>
+
+            <!-- Folded Letter Inside -->
+            <div class="letter-sheet" id="letter-sheet">
+              <div class="letter-parchment-texture"></div>
+              <div class="letter-border"></div>
+              
+              <div class="letter-content">
+                <div class="letter-seal-watermark">A&E</div>
+                <div class="letter-header">
+                  <span class="invitation-ornament">✧ ✦ ✧</span>
+                  <p class="invitation-intro">You Are Cordially Invited</p>
+                </div>
+
+                <div class="letter-names">
+                  <h1 class="couple-title">Aurelius Vance</h1>
+                  <span class="names-amp">&</span>
+                  <h1 class="couple-title">Elena Blackwood</h1>
+                </div>
+
+                <p class="letter-verse">
+                  to celebrate a story written in the stars, bound by ancient vows and eternal starlight.
+                </p>
+
+                <div class="letter-details">
+                  <div class="detail-item">
+                    <span class="detail-label">DATE OF CELEBRATION</span>
+                    <span class="detail-val">Saturday, October 24, 2026</span>
+                  </div>
+                  <div class="detail-separator">✦</div>
+                  <div class="detail-item">
+                    <span class="detail-label">SANCTUARY & OBSERVATORY</span>
+                    <span class="detail-val">The Cloisters of Blackwood Manor</span>
+                    <span class="detail-sub">High Glade, Scotland</span>
+                  </div>
+                </div>
+
+                <button class="magical-btn continue-story-btn" id="open-journey-trigger">
+                  <span class="btn-shimmer"></span>
+                  <span class="btn-text">Walk the Constellations</span>
+                  <span class="btn-arrow">↓</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Front Pockets -->
+            <div class="envelope-front-left"></div>
+            <div class="envelope-front-right"></div>
+            <div class="envelope-front-bottom"></div>
+
+            <!-- Top Flap with Wax Seal -->
+            <div class="envelope-flap" id="envelope-flap">
+              <div class="wax-seal" id="wax-seal" role="button" tabindex="0" aria-label="Break the wax seal to open invitation">
+                <div class="wax-glow"></div>
+                <div class="wax-body">
+                  <span class="wax-monogram">A&E</span>
+                  <span class="wax-ring"></span>
+                </div>
+                <div class="seal-cracks" id="seal-cracks"></div>
+              </div>
+            </div>
+
+          </div>
+
+          <p class="envelope-prompt" id="seal-prompt">Touch the wax seal to unseal the invitation</p>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ==========================================
+         SCENE 03: THE TWO STORIES
+    =========================================== -->
+    <section class="scene scene-03" id="scene-03" aria-label="The Two Stories">
+      <div class="scene-inner scene-03-inner">
+        
+        <div class="scene-heading-group">
+          <span class="scene-subhead">Two Solitary Paths</span>
+          <h2 class="scene-title">One Unexpected Meeting</h2>
+          <p class="scene-caption">Swipe to traverse between two enchanted lives</p>
+        </div>
+
+        <div class="stories-viewport" id="stories-viewport">
+          
+          <!-- Story Slider Container -->
+          <div class="liquid-slider" id="couple-slider">
+            
+            <!-- Portrait Comparison Arch -->
+            <div class="portrait-arch-stage" id="portrait-stage">
+              
+              <!-- Groom Portrait Layer -->
+              <div class="portrait-layer layer-groom" id="panel-groom">
+                <div class="portrait-mask">
+                  <img src="assets/images/groom.jpg" alt="Aurelius Vance" class="portrait-img" loading="lazy">
+                  <div class="portrait-overlay"></div>
+                </div>
+              </div>
+
+              <!-- Bride Portrait Layer -->
+              <div class="portrait-layer layer-bride" id="panel-bride">
+                <div class="portrait-mask">
+                  <img src="assets/images/bride.jpg" alt="Elena Blackwood" class="portrait-img" loading="lazy">
+                  <div class="portrait-overlay"></div>
+                </div>
+              </div>
+
+              <!-- Interactive Fluid Divider Handle -->
+              <div class="slider-handle" id="slider-handle" role="slider" aria-label="Drag to reveal bride and groom stories" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+                <div class="handle-line"></div>
+                <div class="handle-rune">
+                  <span class="rune-symbol">ᛟ</span>
+                </div>
+                <div class="handle-line"></div>
+              </div>
+
+            </div>
+
+            <!-- Story Narratives (Placed below arch, unclipped for pristine readability) -->
+            <div class="stories-narrative-container">
+              
+              <!-- Combined Header Badge -->
+              <div class="couple-unity-badge" id="unity-badge">
+                <span class="unity-label">AURELIUS & ELENA</span>
+                <span class="unity-subtext">Two kindred souls bound by ancient vows</span>
+              </div>
+
+              <div class="stories-cards-grid">
+                <!-- Groom Story Card -->
+                <div class="story-card card-groom" id="story-groom">
+                  <span class="story-character-title">AURELIUS</span>
+                  <p class="story-theme">A journey of ancient tomes, quiet curiosities, and the secrets etched into forgotten library arches.</p>
+                  <div class="story-attribute">
+                    <span class="attr-icon">☉</span>
+                    <span class="attr-text">Keeper of History & Starlight</span>
+                  </div>
+                </div>
+
+                <!-- Bride Story Card -->
+                <div class="story-card card-bride" id="story-bride">
+                  <span class="story-character-title">ELENA</span>
+                  <p class="story-theme">A voyage of starlight, untamed horizons, and celestial cartography charted across distant skies.</p>
+                  <div class="story-attribute">
+                    <span class="attr-icon">☽</span>
+                    <span class="attr-text">Daughter of Astronomy & Wonder</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- Slider Direction Cue -->
+          <div class="slider-touch-indicator">
+            <span class="touch-arrow">◂</span>
+            <span class="touch-text">Drag handle left or right</span>
+            <span class="touch-arrow">▸</span>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ==========================================
+         SCENE 04: THE MAGICAL JOURNEY
+    =========================================== -->
+    <section class="scene scene-04" id="scene-04" aria-label="The Magical Journey">
+      <div class="scene-inner scene-04-inner">
+        
+        <div class="scene-heading-group">
+          <span class="scene-subhead">The Enchanted Path</span>
+          <h2 class="scene-title">Footsteps in Time</h2>
+          <p class="scene-caption">The map awakens as you travel forward</p>
+        </div>
+
+        <div class="marauders-map" id="journey-map">
+          <!-- Parchment Map Base -->
+          <div class="map-parchment">
+            <div class="compass-rose"></div>
+            
+            <!-- Dynamic SVG Path with smooth continuous cubic bezier curve (No kinks) -->
+            <svg class="map-path-svg" viewBox="0 0 360 880" preserveAspectRatio="none">
+              <path id="journey-track" class="track-bg" d="M 180,40 C 60,90 60,190 180,240 S 300,390 180,440 S 60,590 180,640 S 300,790 180,840" />
+              <path id="journey-revealed-track" class="track-drawn" d="M 180,40 C 60,90 60,190 180,240 S 300,390 180,440 S 60,590 180,640 S 300,790 180,840" />
+            </svg>
+
+            <!-- Interactive Waypoints (Positioned along the winding path) -->
+            <div class="map-waypoints">
+
+              <!-- Waypoint 1 -->
+              <div class="waypoint-item item-left waypoint-active" data-step="1" style="top: 8%;">
+                <div class="waypoint-marker">
+                  <span class="marker-star">✦</span>
+                  <div class="marker-ripple"></div>
+                </div>
+                <div class="waypoint-card">
+                  <span class="waypoint-year">2019</span>
+                  <h3 class="waypoint-title">The First Encounter</h3>
+                  <p class="waypoint-desc">An autumn afternoon in Edinburgh. Rain upon old mullioned glass, a spilled cup of Earl Grey, and hours that vanished like enchanted mist.</p>
+                </div>
+              </div>
+
+              <!-- Waypoint 2 -->
+              <div class="waypoint-item item-right" data-step="2" style="top: 31%;">
+                <div class="waypoint-marker">
+                  <span class="marker-star">✦</span>
+                  <div class="marker-ripple"></div>
+                </div>
+                <div class="waypoint-card">
+                  <span class="waypoint-year">2021</span>
+                  <h3 class="waypoint-title">The Adventure Begins</h3>
+                  <p class="waypoint-desc">Wandering misty Scottish glens and ancient lochs under stormy skies. Finding a home not in stone walls, but in each other’s presence.</p>
+                </div>
+              </div>
+
+              <!-- Waypoint 3 -->
+              <div class="waypoint-item item-left" data-step="3" style="top: 54%;">
+                <div class="waypoint-marker">
+                  <span class="marker-star">✦</span>
+                  <div class="marker-ripple"></div>
+                </div>
+                <div class="waypoint-card">
+                  <span class="waypoint-year">2024</span>
+                  <h3 class="waypoint-title">The Question</h3>
+                  <p class="waypoint-desc">Midnight under the ruins of St. Anthony’s Chapel. Candles set in stone alcoves. One knee upon damp earth, and a promise spoken into the wind.</p>
+                </div>
+              </div>
+
+              <!-- Waypoint 4 -->
+              <div class="waypoint-item item-right" data-step="4" style="top: 77%;">
+                <div class="waypoint-marker">
+                  <span class="marker-star">✦</span>
+                  <div class="marker-ripple"></div>
+                </div>
+                <div class="waypoint-card">
+                  <span class="waypoint-year">2026</span>
+                  <h3 class="waypoint-title">The Eternal Chapter</h3>
+                  <p class="waypoint-desc">The gathering of kindred souls. Under vaulted cloisters and starlight, two paths unite forever in unbreakable enchantment.</p>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Footprint Container -->
+            <div id="footprints-layer" class="footprints-layer"></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ==========================================
+         SCENE 05: MEMORY GALLERY (LIQUID GESTURES)
+    =========================================== -->
+    <section class="scene scene-05" id="scene-05" aria-label="Memory Gallery">
+      <div class="scene-inner scene-05-inner">
+        
+        <div class="scene-heading-group">
+          <span class="scene-subhead">Fragments of Light</span>
+          <h2 class="scene-title">The Memory Gallery</h2>
+          <p class="scene-caption">Swipe horizontally to bend through time and memory</p>
+        </div>
+
+        <div class="liquid-gallery-viewport" id="liquid-gallery-viewport">
+          
+          <div class="gallery-track" id="gallery-track">
+            
+            <!-- Memory 1 -->
+            <article class="gallery-card active" data-index="0">
+              <div class="card-glass-frame">
+                <div class="card-image-wrap">
+                  <img src="assets/images/memory_1.jpg" alt="Edinburgh afternoon" class="gallery-img" loading="lazy">
+                  <div class="card-shimmer"></div>
+                </div>
+                <div class="card-meta">
+                  <span class="card-num">I</span>
+                  <p class="card-caption">The Beginning</p>
+                  <p class="card-quote">“Where all ordinary moments turned quietly golden.”</p>
+                </div>
+              </div>
+            </article>
+
+            <!-- Memory 2 -->
+            <article class="gallery-card" data-index="1">
+              <div class="card-glass-frame">
+                <div class="card-image-wrap">
+                  <img src="assets/images/memory_2.jpg" alt="Scottish Highlands" class="gallery-img" loading="lazy">
+                  <div class="card-shimmer"></div>
+                </div>
+                <div class="card-meta">
+                  <span class="card-num">II</span>
+                  <p class="card-caption">The Adventure</p>
+                  <p class="card-quote">“Braving cold winds for the warmth of your laughter.”</p>
+                </div>
+              </div>
+            </article>
+
+            <!-- Memory 3 -->
+            <article class="gallery-card" data-index="2">
+              <div class="card-glass-frame">
+                <div class="card-image-wrap">
+                  <img src="assets/images/memory_3.jpg" alt="The Proposal" class="gallery-img" loading="lazy">
+                  <div class="card-shimmer"></div>
+                </div>
+                <div class="card-meta">
+                  <span class="card-num">III</span>
+                  <p class="card-caption">The Unforgettable Day</p>
+                  <p class="card-quote">“Under cloister arches, an answered prayer in tears.”</p>
+                </div>
+              </div>
+            </article>
+
+            <!-- Memory 4 -->
+            <article class="gallery-card" data-index="3">
+              <div class="card-glass-frame">
+                <div class="card-image-wrap">
+                  <img src="assets/images/memory_4.jpg" alt="Always Us" class="gallery-img" loading="lazy">
+                  <div class="card-shimmer"></div>
+                </div>
+                <div class="card-meta">
+                  <span class="card-num">IV</span>
+                  <p class="card-caption">Always Us</p>
+                  <p class="card-quote">“After all this time? Always.”</p>
+                </div>
+              </div>
+            </article>
+
+          </div>
+
+          <!-- Gallery Gesture Control Bar -->
+          <div class="gallery-controls">
+            <button class="gallery-arrow prev-btn" id="gallery-prev" aria-label="Previous memory">‹</button>
+            <div class="gallery-dots" id="gallery-dots">
+              <span class="gallery-dot active" data-dot="0"></span>
+              <span class="gallery-dot" data-dot="1"></span>
+              <span class="gallery-dot" data-dot="2"></span>
+              <span class="gallery-dot" data-dot="3"></span>
+            </div>
+            <button class="gallery-arrow next-btn" id="gallery-next" aria-label="Next memory">›</button>
+          </div>
+
+          <p class="gallery-hint">Tap any memory to inspect • Swipe to distort</p>
+
+        </div>
+
+        <!-- Lightbox Modal for Full View -->
+        <div class="memory-lightbox" id="memory-lightbox" aria-hidden="true" role="dialog">
+          <div class="lightbox-backdrop" id="lightbox-close"></div>
+          <div class="lightbox-dialog">
+            <button class="lightbox-exit" aria-label="Close dialog">✕</button>
+            <div class="lightbox-img-wrap">
+              <img src="" alt="Enlarged memory" id="lightbox-image">
+            </div>
+            <div class="lightbox-caption">
+              <h4 id="lightbox-title"></h4>
+              <p id="lightbox-text"></p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ==========================================
+         SCENE 06: THE WEDDING & VENUE
+    =========================================== -->
+    <section class="scene scene-06" id="scene-06" aria-label="The Wedding Sanctuary">
+      <div class="scene-inner scene-06-inner">
+        
+        <div class="scene-heading-group">
+          <span class="scene-subhead">The Sacred Sanctuary</span>
+          <h2 class="scene-title">The Cloisters of Blackwood Manor</h2>
+          <p class="scene-caption">High Glade, Perthshire, Scotland</p>
+        </div>
+
+        <div class="venue-manuscript" id="venue-manuscript">
+          
+          <div class="manuscript-parchment">
+            <div class="manuscript-border"></div>
+
+            <div class="manuscript-header">
+              <span class="gothic-motif">⚜ ✦ ⚜</span>
+              <h3 class="venue-name">The Observatory & Grand Cloister</h3>
+              <p class="venue-epoch">Constructed Anno Domini 1684</p>
+            </div>
+
+            <div class="venue-schedule">
+              <h4 class="schedule-title">ORDER OF ENCHANTMENTS</h4>
+              
+              <div class="timeline-event">
+                <span class="event-time">IV : XXX PM</span>
+                <div class="event-body">
+                  <strong class="event-name">The Gathering & Twilight Elixirs</strong>
+                  <p class="event-desc">Warm mulled spiced cider, herbal tonics, and welcoming melodies in the south courtyard.</p>
+                </div>
+              </div>
+
+              <div class="timeline-event">
+                <span class="event-time">V : XXX PM</span>
+                <div class="event-body">
+                  <strong class="event-name">The Exchange of Vows</strong>
+                  <p class="event-desc">Beneath the celestial glass cupola as the autumn dusk gives way to the first stars.</p>
+                </div>
+              </div>
+
+              <div class="timeline-event">
+                <span class="event-time">VII : 00 PM</span>
+                <div class="event-body">
+                  <strong class="event-name">The Feast of Candelabras</strong>
+                  <p class="event-desc">A celebratory four-course banquet accompanied by vintage cellared wines and heartfelt toasts.</p>
+                </div>
+              </div>
+
+              <div class="timeline-event">
+                <span class="event-time">IX : 00 PM</span>
+                <div class="event-body">
+                  <strong class="event-name">Starlight Revelry & Dancing</strong>
+                  <p class="event-desc">Dancing under floating lantern chandeliers until the stroke of midnight.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Interactive Map & Coordinates Reveal -->
+            <div class="venue-actions">
+              <button class="magical-btn outline-btn" id="reveal-coords-btn">
+                <span class="btn-text">Reveal Coordinates & Map</span>
+                <span class="btn-glyph">🧭</span>
+              </button>
+            </div>
+
+            <!-- Foldout Coordinates Panel -->
+            <div class="coords-panel" id="coords-panel">
+              <div class="coords-card">
+                <div class="coords-latlong">56° 35' 12" N &nbsp;•&nbsp; 3° 48' 28" W</div>
+                <p class="coords-address">Blackwood Manor Estate, Forest of Atholl, Perthshire PH18 5UQ, United Kingdom</p>
+                <div class="dress-code-note">
+                  <span class="dc-title">ATTIRE SUGGESTION</span>
+                  <p class="dc-desc">Formal Evening Attire in Deep Jewel Tones (Emerald, Midnight Blue, Burgundy, Antique Gold, or Classic Black).</p>
+                </div>
+                <a href="https://maps.google.com/?q=Perthshire+Scotland" target="_blank" rel="noopener noreferrer" class="coords-map-link">
+                  Open in Celestial Navigator (Google Maps) ↗
+                </a>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ==========================================
+         SCENE 07: THE ASTRONOMICAL COUNTDOWN
+    =========================================== -->
+    <section class="scene scene-07" id="scene-07" aria-label="The Astronomical Clock">
+      <div class="scene-inner scene-07-inner">
+        
+        <div class="scene-heading-group">
+          <span class="scene-subhead">The Cosmic Alignment</span>
+          <h2 class="scene-title">The Moment Approaches</h2>
+          <p class="scene-caption">The celestial spheres turn inexorably toward our union</p>
+        </div>
+
+        <div class="astrolabe-container" id="astrolabe-container">
+          
+          <!-- Astrolabe Mechanical Interactive Dial -->
+          <div class="astrolabe" id="astrolabe-mechanism">
+            
+            <!-- Outer Constellation Ring -->
+            <div class="astrolabe-ring ring-outer">
+              <svg class="ring-svg" viewBox="0 0 320 320">
+                <circle cx="160" cy="160" r="150" class="ring-track" />
+                <circle cx="160" cy="160" r="150" class="ring-border-dashed" />
+                <!-- Astrological symbols in ring -->
+                <text x="160" y="24" class="ring-glyph">♈</text>
+                <text x="256" y="64" class="ring-glyph">♉</text>
+                <text x="296" y="160" class="ring-glyph">♊</text>
+                <text x="256" y="256" class="ring-glyph">♋</text>
+                <text x="160" y="296" class="ring-glyph">♌</text>
+                <text x="64" y="256" class="ring-glyph">♍</text>
+                <text x="24" y="160" class="ring-glyph">♎</text>
+                <text x="64" y="64" class="ring-glyph">♏</text>
+              </svg>
+            </div>
+
+            <!-- Middle Planet Gear Ring -->
+            <div class="astrolabe-ring ring-middle">
+              <svg class="ring-svg" viewBox="0 0 260 260">
+                <circle cx="130" cy="130" r="120" class="ring-track-mid" />
+                <line x1="130" y1="10" x2="130" y2="250" class="dial-axis" />
+                <line x1="10" y1="130" x2="250" y2="130" class="dial-axis" />
+              </svg>
+            </div>
+
+            <!-- Inner Moon Phase Ring -->
+            <div class="astrolabe-ring ring-inner">
+              <div class="moon-phase-orb"></div>
+            </div>
+
+            <!-- Central Celestial Countdown Numbers -->
+            <div class="astrolabe-core">
+              <div class="countdown-grid">
+                
+                <div class="countdown-block">
+                  <span class="cd-num" id="cd-days">000</span>
+                  <span class="cd-label">DAYS</span>
+                </div>
+
+                <div class="cd-divider">:</div>
+
+                <div class="countdown-block">
+                  <span class="cd-num" id="cd-hours">00</span>
+                  <span class="cd-label">HOURS</span>
+                </div>
+
+                <div class="cd-divider">:</div>
+
+                <div class="countdown-block">
+                  <span class="cd-num" id="cd-minutes">00</span>
+                  <span class="cd-label">MIN</span>
+                </div>
+
+                <div class="cd-divider">:</div>
+
+                <div class="countdown-block">
+                  <span class="cd-num" id="cd-seconds">00</span>
+                  <span class="cd-label">SEC</span>
+                </div>
+
+              </div>
+
+              <div class="countdown-target">October 24, 2026 • 16:30 BST</div>
+            </div>
+
+          </div>
+
+          <p class="astrolabe-hint">Gently touch & rotate the dial to adjust celestial harmonics</p>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ==========================================
+         SCENE 08: THE ENCHANTED RSVP
+    =========================================== -->
+    <section class="scene scene-08" id="scene-08" aria-label="The Enchanted RSVP">
+      <div class="scene-inner scene-08-inner">
+        
+        <div class="scene-heading-group">
+          <span class="scene-subhead">A Pledge of Attendance</span>
+          <h2 class="scene-title">Will You Join Us?</h2>
+          <p class="scene-caption">Inscribe your reply into the chronicle of our day</p>
+        </div>
+
+        <div class="rsvp-parchment-desk" id="rsvp-desk">
+          
+          <div class="scroll-manuscript" id="rsvp-scroll">
+            <div class="scroll-curl scroll-curl-top"></div>
+
+            <form id="rsvp-form" class="rsvp-form" onsubmit="return false;">
+              
+              <!-- Choice 1: Attendance Branch -->
+              <div class="rsvp-attendance-choice">
+                <p class="choice-prompt">Kindly declare your intention by September 15th:</p>
+                
+                <div class="choice-options">
+                  <label class="choice-card" id="choice-attend">
+                    <input type="radio" name="attendance" value="attend" class="sr-only">
+                    <span class="choice-symbol">✦</span>
+                    <span class="choice-title">I Shall Be There</span>
+                    <span class="choice-subtitle">To witness vows and celebrate in revelry</span>
+                  </label>
+
+                  <label class="choice-card" id="choice-decline">
+                    <input type="radio" name="attendance" value="decline" class="sr-only">
+                    <span class="choice-symbol">☽</span>
+                    <span class="choice-title">With Love, in Spirit</span>
+                    <span class="choice-subtitle">My heart attends, though miles keep us apart</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Animated Calligraphic Ink Confirmation Line -->
+              <div class="ink-response-preview" id="ink-preview">
+                <span class="quill-nib">🖋</span>
+                <span class="ink-text" id="ink-written-text"></span>
+              </div>
+
+              <!-- Progressive Fields (Revealed when a choice is made) -->
+              <div class="rsvp-progressive-fields" id="progressive-fields">
+                
+                <div class="input-field">
+                  <label for="guest-name" class="field-label">Name(s) of Honored Guest</label>
+                  <input type="text" id="guest-name" name="guest_name" class="magical-input" placeholder="e.g. Lord & Lady Sterling" required>
+                  <span class="input-line"></span>
+                </div>
+
+                <div class="input-field">
+                  <label for="guest-count" class="field-label">Number of Souls Attending</label>
+                  <select id="guest-count" name="guest_count" class="magical-select">
+                    <option value="1">One Guest</option>
+                    <option value="2" selected>Two Guests</option>
+                    <option value="3">Three Guests</option>
+                    <option value="4">Four Guests</option>
+                  </select>
+                </div>
+
+                <div class="input-field" id="dietary-wrap">
+                  <label for="guest-diet" class="field-label">Dietary Enchantments & Preferences</label>
+                  <input type="text" id="guest-diet" name="guest_diet" class="magical-input" placeholder="Vegetarian, Vegan, Allergies, or None">
+                  <span class="input-line"></span>
+                </div>
+
+                <div class="input-field">
+                  <label for="guest-blessing" class="field-label">A Blessing or Note for the Couple</label>
+                  <textarea id="guest-blessing" name="guest_blessing" rows="3" class="magical-textarea" placeholder="Inscribe your well-wishes here..."></textarea>
+                  <span class="input-line"></span>
+                </div>
+
+                <!-- Seal Submission Button -->
+                <div class="seal-submission-wrapper">
+                  <button type="button" class="magical-btn seal-btn" id="seal-reply-btn">
+                    <span class="btn-shimmer"></span>
+                    <span class="btn-wax-icon">⚜</span>
+                    <span class="btn-text">Seal My Reply</span>
+                  </button>
+                  <p class="seal-subtext">Will stamp your vow with hot golden wax</p>
+                </div>
+
+              </div>
+
+            </form>
+
+            <!-- Success State: Sealed Parchment Notification -->
+            <div class="rsvp-success-overlay" id="rsvp-success" aria-hidden="true">
+              <div class="success-seal-anim">
+                <div class="success-wax-stamp">
+                  <span class="stamp-glyph">✦ A&E ✦</span>
+                </div>
+              </div>
+              <h3 class="success-title">Your Reply Has Been Enchanted</h3>
+              <p class="success-body">Dispatched safely across the ether to Aurelius and Elena. We look forward to sharing this starlit chapter with you.</p>
+              <button class="magical-btn outline-btn" id="reset-rsvp-btn">Modify My Response</button>
+            </div>
+
+            <div class="scroll-curl scroll-curl-bottom"></div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ==========================================
+         SCENE 09: FINAL REVEAL & SAVE THE DATE
+    =========================================== -->
+    <section class="scene scene-09" id="scene-09" aria-label="The Final Reveal">
+      <div class="scene-inner scene-09-inner">
+        
+        <div class="final-starlight-stage">
+          
+          <!-- Interactive Constellation Canvas / Monogram -->
+          <div class="constellation-monogram" id="constellation-monogram">
+            <svg class="monogram-svg" viewBox="0 0 300 300">
+              <!-- Star lines forming A & E -->
+              <g class="constellation-lines">
+                <!-- Letter A lines -->
+                <line x1="70" y1="210" x2="110" y2="90" class="const-line" />
+                <line x1="110" y1="90" x2="150" y2="210" class="const-line" />
+                <line x1="86" y1="165" x2="134" y2="165" class="const-line" />
+
+                <!-- Ampersand / connecting star -->
+                <line x1="150" y1="210" x2="170" y2="150" class="const-line line-dim" />
+                <line x1="170" y1="150" x2="190" y2="90" class="const-line line-dim" />
+
+                <!-- Letter E lines -->
+                <line x1="190" y1="90" x2="190" y2="210" class="const-line" />
+                <line x1="190" y1="90" x2="230" y2="90" class="const-line" />
+                <line x1="190" y1="150" x2="222" y2="150" class="const-line" />
+                <line x1="190" y1="210" x2="230" y2="210" class="const-line" />
+              </g>
+
+              <!-- Star Nodes -->
+              <g class="constellation-stars">
+                <circle cx="70" cy="210" r="4" class="const-star" />
+                <circle cx="110" cy="90" r="5" class="const-star major-star" />
+                <circle cx="150" cy="210" r="4" class="const-star" />
+                <circle cx="86" cy="165" r="3.5" class="const-star" />
+                <circle cx="134" cy="165" r="3.5" class="const-star" />
+
+                <circle cx="170" cy="150" r="4" class="const-star connector-star" />
+
+                <circle cx="190" cy="90" r="4.5" class="const-star" />
+                <circle cx="190" cy="150" r="3.5" class="const-star" />
+                <circle cx="190" cy="210" r="4.5" class="const-star" />
+                <circle cx="230" cy="90" r="4" class="const-star" />
+                <circle cx="222" cy="150" r="3.5" class="const-star" />
+                <circle cx="230" cy="210" r="4" class="const-star" />
+              </g>
+            </svg>
+          </div>
+
+          <div class="final-content">
+            <span class="final-prefix">Save the Date</span>
+            <h2 class="final-names">Aurelius & Elena</h2>
+            <p class="final-date">October 24, 2026</p>
+            <p class="final-quote">“The magic begins here.”</p>
+
+            <div class="final-actions">
+              <button class="magical-btn gold-glow-btn" id="add-calendar-btn">
+                <span class="btn-text">Add to Calendar (.ics)</span>
+                <span class="btn-glyph">📅</span>
+              </button>
+              
+              <button class="magical-btn outline-btn" id="share-invite-btn">
+                <span class="btn-text">Share Invitation</span>
+                <span class="btn-glyph">✧</span>
+              </button>
+            </div>
+
+            <div class="return-scroll-cue">
+              <button class="scroll-top-btn" id="scroll-top-btn" aria-label="Return to the beginning">
+                <span class="st-arrow">↑</span>
+                <span class="st-text">Return to the candlelight</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Notification Toast -->
+  <div id="toast-message" class="toast-message" aria-live="polite"></div>
+
+  <!-- Scripts -->
+  <script src="js/audio.js"></script>
+  <script src="js/particles.js"></script>
+  <script src="js/candle.js"></script>
+  <script src="js/envelope.js"></script>
+  <script src="js/coupleSlider.js"></script>
+  <script src="js/journeyMap.js"></script>
+  <script src="js/liquidGallery.js"></script>
+  <script src="js/venue.js"></script>
+  <script src="js/astrolabe.js"></script>
+  <script src="js/rsvp.js"></script>
+  <script src="js/finalReveal.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
